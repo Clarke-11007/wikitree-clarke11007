@@ -1,0 +1,258 @@
+.colourOrange {
+  color: orange;
+}
+
+.hideGroom {
+  display: none;
+}
+
+.hideBride {
+  display: none;
+}
+
+.hideNow {
+  display: none;
+}
+
+.showNow {
+  display: block;
+}
+
+.dnaIconsWithLinks {
+  display: none;
+}
+.dnaShowIcons {
+  display: block;
+}
+
+button.selectedButton,
+input.selectedButton {
+  background: #f79d20;
+}
+
+.ui-tabs-nav li {
+  list-style: none;
+  float: left;
+  position: relative;
+  top: 1px;
+  margin: 0 0.2em 1px 0;
+  border-bottom: 0 !important;
+  padding: 0;
+  white-space: nowrap;
+  background-color: orange;
+}
+
+.ui-tabs-nav li.ui-tabs-selected {
+  margin-bottom: 0;
+  padding-bottom: 4px;
+  background-color: #ffddaa;
+}
+
+.rotateImage {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.arialFont {
+  font-family: "Arial";
+}
+.courierFont {
+  font: "Courier";
+  font-family: "Courier";
+}
+.timesFont {
+  font: "Times";
+  font-family: "serif";
+}
+
+.collapsible::before {
+  content: "\02795"; /* Unicode character for "plus" sign (+) */
+  font-size: 23px;
+  color: black;
+  float: left;
+  margin-right: 5px;
+}
+
+.active ::before {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.roundedBox {
+  border-radius: 8px;
+  border: 1px solid green;
+}
+
+#TownLegendContainer {
+  display: flex;
+  flex-flow: row wrap;
+  max-height: 100%;
+  width: 150px;
+  overflow: auto;
+  align-content: flex-start;
+}
+
+#settingsdiv {
+  position: fixed;
+  z-index: 11;
+  background-color: #f1f1f1;
+  text-align: right;
+  border: 1px solid #d3d3d3;
+  display: inline-block;
+  top: 20px;
+  right: 30px;
+}
+
+#mydiv,
+#checkboxSetup {
+  position: fixed;
+  z-index: 9;
+  background-color: #f1f1f1;
+  text-align: center;
+  border: 1px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 30px;
+}
+
+#mydivheader,
+#checkboxSetupheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 10;
+  background-color: #fec017;
+  color: #fff;
+  display: none;
+  font-family: sans-serif;
+}
+
+#legend {
+  position: fixed;
+  z-index: 23;
+  background-color: #fff1f1;
+  text-align: center;
+  border: 3px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 100px;
+}
+
+#legendheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 24;
+  background-color: #fec017;
+  color: #fff;
+  display: none;
+  font-family: sans-serif;
+}
+
+#DNAgenderQ {
+  position: fixed;
+  z-index: 43;
+  background-color: #fff1f1;
+  text-align: center;
+  border: 3px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 150px;
+}
+
+#DNAgenderQheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 44;
+  background-color: #fec017;
+  color: #fff;
+  display: block;
+  font-family: sans-serif;
+}
+
+#sharing {
+  position: fixed;
+  z-index: 33;
+  background-color: #fff1f1;
+  text-align: center;
+  border: 3px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 150px;
+}
+
+#sharingheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 34;
+  background-color: #fec017;
+  color: #fff;
+  display: block;
+  font-family: sans-serif;
+}
+#prePDF {
+  position: fixed;
+  z-index: 28;
+  background-color: #fff1f1;
+  text-align: center;
+  border: 3px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 150px;
+}
+
+#prePDFheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 29;
+  background-color: #fec017;
+  color: #fff;
+  display: block;
+  font-family: sans-serif;
+}
+#about {
+  position: fixed;
+  z-index: 33;
+  background-color: #fff1f1;
+  text-align: center;
+  border: 3px solid #d3d3d3;
+  display: none;
+  top: 50px;
+  left: 150px;
+}
+
+#aboutheader {
+  padding: 5px;
+  cursor: move;
+  z-index: 34;
+  background-color: #fec017;
+  color: #fff;
+  display: block;
+  font-family: sans-serif;
+}
+
+.popupBox {
+  display: block;
+}
+.fixedBox {
+  display: block;
+}
+
+.zoomOnHover {
+  padding: 5px;
+  transition: transform 0.2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoomOnHover:hover {
+  transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.btnSVG {
+  padding: 0;
+  margin: 0px;
+  border-radius: 0px;
+  background: none;
+  width: 20px;
+  height: 17px;
+}
