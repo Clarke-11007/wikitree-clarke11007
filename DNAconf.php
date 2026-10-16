@@ -364,7 +364,7 @@ if (isset($_GET['id'])) {
 		var testerNamesForCitations = [];
 		var showDeathWarning = false;
 
-		var versionNum = "version 3.09 (updated 25.Feb.2026)";
+		var versionNum = "version 3.12 (updated 14.Oct.2026)";
 
 		var theID = '';
 		var theID2 = '';
@@ -420,6 +420,8 @@ if (isset($_GET['id'])) {
 		var floatingMiniTreeTableX = "<span align=right><button style='padding:5px; background-color:red;' onclick='hideMiniTree();'>&nbsp;x&nbsp;</button></span><BR/>";
 		var floatingMiniTreeTableHTML = "<TABLE border=0 style='background-color:aliceblue;'>"; 
 		var nonBioList = "";
+
+		var isHalfRelationship = false;
 
 		function setNonBioMode( newValue, childID, parentID) {
 			console.log("setNonBioMode", newValue, childID, parentID);
@@ -633,7 +635,7 @@ function cookie4thisApp (key, value, options) {
 		// RESET to STEP 0
 		function resetApp(typeMode = 'live') {
 			// alert(typeMode);
-			allDIVs = ['TooDistant', 'FormDIV1ab', 'FormDIV1abc',  'FormDIV1err' , 'FormDIV1abP1err','FormDIV1abP2err','FormDIV1abcP1err','FormDIV1abXP1err','FormDIV1abcXP1err', 'FormDIV1abX', 'FormDIV1b','FormDIV1contacting', 'FormDIV1gender', 'FormDIV2', 'FormDIV3', 'FormDIV4TooFar4SimpleWarning','FormDIV4MultipleMRCAs' ,'FormDIV4','FormDIV4direct','FormDIV4abc', 'FormDIV5', 'FormDIV6' ,'FormDIV6MT','FormDIV6X','FormDIV6Y','FormDIV6TRI', 'FormDIV7', 'ResetDIV' ];
+			allDIVs = ['TooDistant', 'FormDIV1ab', 'FormDIV1abc',  'FormDIV1err' , 'FormDIV1abP1err','FormDIV1abP2err','FormDIV1abcP1err','FormDIV1abXP1err','FormDIV1abcXP1err', 'FormDIV1abX', 'FormDIV1b','FormDIV1contacting', 'FormDIV1gender', 'FormDIV1YGenderWarning', 'FormDIV2', 'FormDIV3', 'FormDIV4TooFar4SimpleWarning','FormDIV4MultipleMRCAs' ,'FormDIV4','FormDIV4direct','FormDIV4abc', 'FormDIV5', 'FormDIV6' ,'FormDIV6MT','FormDIV6X','FormDIV6Y','FormDIV6TRI', 'FormDIV7', 'ResetDIV' ];
 			document.getElementById('DIV5warning').style.display = 'none';
 			document.getElementById('versionDesc').style.display = 'block';
 			document.getElementById('FormDIV1Warning').style.display = 'none';
@@ -1647,8 +1649,12 @@ function cookie4thisApp (key, value, options) {
 						whichMiniTree2Use = "UNIminiTree";
 					}
 
+					let miniTreeHTML = document.getElementById(whichMiniTree2Use).innerHTML;
+					if (whichMiniTree2Use == "SimpleMiniTreeTable") {
+						miniTreeHTML = getMiniTreeHTMLForStep7(whichMiniTree2Use);
+					}
 
-					document.getElementById('floatingMiniTreeInTable').innerHTML = floatingMiniTreeTableX +  floatingMiniTreeTableHTML + document.getElementById(whichMiniTree2Use).innerHTML  + "</TABLE>";					
+					document.getElementById('floatingMiniTreeInTable').innerHTML = floatingMiniTreeTableX +  floatingMiniTreeTableHTML + miniTreeHTML + "</TABLE>";
 
 					hideMiniTree();
 
@@ -1843,7 +1849,7 @@ function cookie4thisApp (key, value, options) {
 									dataType: 'json',
 									
 									//data: { 'action': 'getPerson', 'key': primaryID, 'fields': "Id, Name, FirstName, MiddleName, IsLiving, LastNameAtBirth, LastNameCurrent, Nicknames, LastNameOther, RealName, Prefix, Suffix, BirthLocation, DeathLocation, Gender, BirthDate, DeathDate,Father,Mother, Privacy, DataStatus", 'format': 'json' },
-									data: { 'action': 'getPeople', 'appId':'DNAconf' , 'keys': theTestTaker ,'ancestors':6, 'fields': "Id,Name,FirstName,RealName,BirthDate,DeathDate,LastNameCurrent,LastNameAtBirth,DeathDate,Father,Mother,BioFather, BioMother,Gender,DataStatus", 'format': 'json' },
+									data: { 'action': 'getPeople', 'appId':'DNAconf' , 'keys': theTestTaker ,'ancestors':6, 'fields': "Id,Name,FirstName,RealName,BirthDate,DeathDate,LastNameCurrent,LastNameAtBirth,DeathDate,Father,Mother,BioFather,BioMother,Gender,DataStatus", 'format': 'json' },
 
 									// On successful POST return, check our data. Note from that data whether the login itself was
 									// successful (setting session cookies if so). Call the user callback function when done.
@@ -2251,7 +2257,7 @@ function cookie4thisApp (key, value, options) {
 													dataType: 'json',
 													
 													//data: { 'action': 'getPerson', 'key': primaryID, 'fields': "Id, Name, FirstName, MiddleName, IsLiving, LastNameAtBirth, LastNameCurrent, Nicknames, LastNameOther, RealName, Prefix, Suffix, BirthLocation, DeathLocation, Gender, BirthDate, DeathDate,Father,Mother, Privacy, DataStatus", 'format': 'json' },
-													data: { 'action': 'getPeople', 'appId':'DNAconf' , 'keys': theTestPersonID ,'ancestors':6, 'fields': "Id,Name,FirstName,RealName,BirthDate,LastNameCurrent,LastNameAtBirth,DeathDate,Father,Mother,BioFather, BioMother,Gender,DataStatus", 'format': 'json' },
+													data: { 'action': 'getPeople', 'appId':'DNAconf' , 'keys': theTestPersonID ,'ancestors':6, 'fields': "Id,Name,FirstName,RealName,BirthDate,LastNameCurrent,LastNameAtBirth,DeathDate,Father,Mother,BioFather,BioMother,Gender,DataStatus", 'format': 'json' },
 
 													// On successful POST return, check our data. Note from that data whether the login itself was
 													// successful (setting session cookies if so). Call the user callback function when done.
@@ -2949,6 +2955,20 @@ function cookie4thisApp (key, value, options) {
 									theProfilePerson2 = data[0].people[data[0].resultByKey[theID2].Id];
 									console.log("PERSON # 2 : ", theID2, data[0].resultByKey[theID2], theProfilePerson2);
 
+									if (theDNAconfType == 'y' && (theProfilePerson.Gender != "Male" || theProfilePerson2.Gender != "Male")) {
+										let nonMaleTesters = [];
+										if (theProfilePerson.Gender != "Male") {
+											nonMaleTesters.push("Person #1 (" + (theProfilePerson.Name || theID) + "): " + (theProfilePerson.Gender || "gender not specified"));
+										}
+										if (theProfilePerson2.Gender != "Male") {
+											nonMaleTesters.push("Person #2 (" + (theProfilePerson2.Name || theID2) + "): " + (theProfilePerson2.Gender || "gender not specified"));
+										}
+										document.getElementById("YGenderWarningDetails").textContent = nonMaleTesters.join("; ");
+										document.getElementById("FormDIV1contacting").style.display = "none";
+										document.getElementById("FormDIV1YGenderWarning").style.display = "block";
+										return;
+									}
+
 									loadDNAkitNumbers( theID2, 2); // find the DNA kit info for Person # 2									
 
 									if (theID3 > '') {
@@ -3484,7 +3504,7 @@ function cookie4thisApp (key, value, options) {
 				dataType: 'json',
 				
 				// data: { 'action': 'getDescendants', 'key': theAncestor.Id  , 'depth':5 , 'fields':'Id,Name,Gender,RealName,LastNameAtBirth,Mother,Father',  'format': 'json' },
-				data: { 'action': 'getPeople', 'appId':'DNAconf', 'keys': theAncestor.Id  , 'descendants':5 , 'fields':'Id,Name,Gender,BirthDate,DeathDate,RealName,LastNameAtBirth,Mother,Father,BioMother,BioFather',  'format': 'json' },
+				data: { 'action': 'getPeople', 'appId':'DNAconf', 'keys': theAncestor.Id  , 'descendants':5 , 'fields':'Id,Name,Gender,BirthDate,DeathDate,RealName,LastNameAtBirth,Mother,Father,BioMother,BioFather,DataStatus',  'format': 'json' },
 
 				// On successful POST return, check our data. Note from that data whether the login itself was
 				// successful (setting session cookies if so). Call the user callback function when done.
@@ -7351,9 +7371,13 @@ function cookie4thisApp (key, value, options) {
 			if (rOfP2toP1 == 'grandpibling') { rOfP2toP1 = 'great pibling';}
 			if (rOfP1toP2 == 'grandpibling') { rOfP1toP2 = 'great pibling';}
 			
+			var halfPrefix = "";
+			if (isHalfRelationship == true ) {
+				halfPrefix = "half ";
+			}
 
-			rOfP1toP2 = HisOrHer2( GenderP2 ) + " " + rOfP1toP2;
-			rOfP2toP1 = HisOrHer2( GenderP1 ) + " " + rOfP2toP1;
+			rOfP1toP2 = HisOrHer2( GenderP2 ) + " " + halfPrefix + rOfP1toP2;
+			rOfP2toP1 = HisOrHer2( GenderP1 ) + " " + halfPrefix + rOfP2toP1;
 			
 			// if (howCousin == 0) {
 				if ( GenderP1 == "Female") {
@@ -7387,6 +7411,7 @@ function cookie4thisApp (key, value, options) {
 			var numGensFromWikiTreeIDNtoCousin = 0;// numGensFromWikiTreeID2toCousin;
 
 			var isHalf = false;
+			isHalfRelationship = isHalf;
 
 			theArray1 = ahnenIndexArrays[arrayNum1]; 
 			theArray2 = ahnenIndexArrays[arrayNum2]; 
@@ -7441,7 +7466,7 @@ function cookie4thisApp (key, value, options) {
 					let last2 = theAncs2;
 					let next1 = last1;
 					let next2 = last2;
-					console.log("get to Check for IS HALF ", theArray1[theAncs1], theArray2[theAncs2], " spouses: ", theArray1[theAncs1 - 0 + 1], theArray2[theAncs2 - 0 + 1]);
+					console.log("get to Check for IS HALF ", theArray1[theAncs1], theArray2[theAncs2], " spouses: ", theArray1[theAncs1 - 0 + 1], theArray2[theAncs2 - 0 + 1], {theAncs1}, {theAncs2});
 					while (theArray1[next1] == theArray2[next2]) {
 						last1 = next1;
 						last2 = next2;
@@ -7455,10 +7480,10 @@ function cookie4thisApp (key, value, options) {
 					let halfLast2 = Math.floor(last2/2);
 					isHalf = true;
 
-					if (personArray[theArray1[halfLast1]] && personArray[theArray1[halfLast1]].Father && personArray[theArray1[halfLast1]].Mother) {
-						if (personArray[theArray2[halfLast2]] && personArray[theArray2[halfLast2]].Father && personArray[theArray2[halfLast2]].Mother) {
-							if (personArray[theArray1[halfLast1]].Father == personArray[theArray2[halfLast2]].Father && personArray[theArray1[halfLast1]].Father == personArray[theArray2[halfLast2]].Father) {
-								console.log("WE HAVE A COMMON COUPLE");
+					if (personArray[theArray1[halfLast1]] && personArray[theArray1[halfLast1]].Father && personArray[theArray1[halfLast1]].Mother &&  personArray[theArray1[halfLast1]].DataStatus.Father != 5 && personArray[theArray1[halfLast1]].DataStatus.Mother != 5) {
+						if (personArray[theArray2[halfLast2]] && personArray[theArray2[halfLast2]].Father && personArray[theArray2[halfLast2]].Mother && personArray[theArray2[halfLast2]].DataStatus.Father != 5 && personArray[theArray2[halfLast2]].DataStatus.Mother != 5) {
+							if (personArray[theArray1[halfLast1]].Father == personArray[theArray2[halfLast2]].Father && personArray[theArray1[halfLast1]].Mother == personArray[theArray2[halfLast2]].Mother) {
+								console.log("WE HAVE A COMMON COUPLE",halfLast1, halfLast2, theArray1[halfLast1], theArray2[halfLast2], "*", personArray[theArray1[halfLast1]].Father , personArray[theArray2[halfLast2]].Father , personArray[theArray1[halfLast1]].Mother , personArray[theArray2[halfLast2]].Mother);
 								isHalf = false;
 							} else {
 								console.log("Not a match");
@@ -7502,7 +7527,7 @@ function cookie4thisApp (key, value, options) {
 				halfPrefix = "half ";
 			}
 
-			
+			isHalfRelationship = isHalf;
 
 			// alert ("Genders are : " + GenderP1 + " & " + GenderP2);
 			// alert (personArray[ theArray1[ theAncs1]].Name + " = " + personArray[ theArray2[ theAncs2]].Name);
@@ -7670,8 +7695,9 @@ function cookie4thisApp (key, value, options) {
 			relationshipMatrix[arrayNum1 + "|" + arrayNum2] = rOfP2toP1;
 			relationshipMatrix[arrayNum2 + "|" + arrayNum1] = rOfP1toP2;
 
-			rOfP1toP2 = HisOrHer2( GenderP2 ) + " " + rOfP1toP2;
-			rOfP2toP1 = HisOrHer2( GenderP1 ) + " " + rOfP2toP1;
+			 
+			rOfP1toP2 = HisOrHer2( GenderP2 ) + " " +  rOfP1toP2;
+			rOfP2toP1 = HisOrHer2( GenderP1 ) + " " +  rOfP2toP1;
 			
 			console.log("get to DEFINED: " , rOfP2toP1, rOfP1toP2, closeEnoughForSimpleConf, DNApainterRelationship);
 			return [rOfP2toP1, rOfP1toP2, closeEnoughForSimpleConf];
@@ -11146,6 +11172,30 @@ function cookie4thisApp (key, value, options) {
 			setupCustomCitationFields();
 		}
 
+		function getMiniTreeHTMLForStep7(miniTreeId) {
+			const miniTree = document.getElementById(miniTreeId);
+			const miniTreeCopy = miniTree.cloneNode(true);
+
+			for (const select of miniTree.querySelectorAll('select[id^="Peep2AncDDown"]')) {
+				const selectedOption = select.options[select.selectedIndex];
+				const copiedSelect = miniTreeCopy.querySelector('[id="' + select.id + '"]');
+				const selectedOptionText = document.createElement("strong");
+				selectedOptionText.textContent = selectedOption ? selectedOption.textContent : "";
+				copiedSelect.replaceWith(selectedOptionText);
+			}
+
+			// Decided that gender not needed in MiniTree in Step 7 - so replace with space
+			for (const radioGroup of miniTree.querySelectorAll('div[id^="P2peepRadios"]')) {
+				const selectedRadio = radioGroup.querySelector('input[type="radio"]:checked');
+				const copiedRadioGroup = miniTreeCopy.querySelector('[id="' + radioGroup.id + '"]');
+				copiedRadioGroup.textContent = ""; // selectedRadio
+					// ? (selectedRadio.value == "M" ? "male" : "female")
+					// : "gender not specified";
+			}
+
+			return miniTreeCopy.innerHTML;
+		}
+
 		
 
 		function hideAllDropDownsInMiniTree() {
@@ -11215,7 +11265,7 @@ function cookie4thisApp (key, value, options) {
 					// CHECK to see if the Chosen CHILD of the MRCA is a child of BOTH or just ONE of the parents of the DNA Tester 1's penultimate ancestor
 					if (isCouple == false) {
 						// SINGLE MRCA person --> check to see if DROP DOWN picked a FULL SIBLING
-						if (penultimateAnc1.Father == peepFromSide2.Father && penultimateAnc1.Mother == peepFromSide2.Mother ) {
+						if (penultimateAnc1.Father == peepFromSide2.Father && penultimateAnc1.Mother == peepFromSide2.Mother && peepFromSide2.DataStatus.Father != 5 && peepFromSide2.DataStatus.Mother != 5) {
 							console.log("WARNING WARNING --> FULLL SIBLING ALERT !!!!");
 							isCouple = true;
 							if (theAncsAhnNum % 2 == 0) {
@@ -14275,7 +14325,7 @@ function cookie4thisApp (key, value, options) {
 
 		function hideAllDIVs() {
 			// alert(typeMode);
-			allDIVs = ['TooDistant', 'FormDIV1ab', 'FormDIV1abc', 'FormDIV1abP1err','FormDIV1abP2err','FormDIV1abcP1err','FormDIV1abXP1err', 'FormDIV1abcXP1err', 'FormDIV1err' ,'FormDIV1abX', 'FormDIV1b','FormDIV1contacting','FormDIV1gender', 'FormDIV2', 'FormDIV3', 'FormDIV4TooFar4SimpleWarning','FormDIV4MultipleMRCAs' , 'FormDIV4','FormDIV4direct','FormDIV4abc','FormDIV1WarningDeathDates', 'FormDIV5', 'FormDIV6','FormDIV6MT','FormDIV6X','FormDIV6Y','FormDIV6TRI', 'FormDIV7' ];
+			allDIVs = ['TooDistant', 'FormDIV1ab', 'FormDIV1abc', 'FormDIV1abP1err','FormDIV1abP2err','FormDIV1abcP1err','FormDIV1abXP1err', 'FormDIV1abcXP1err', 'FormDIV1err' ,'FormDIV1abX', 'FormDIV1b','FormDIV1contacting','FormDIV1gender','FormDIV1YGenderWarning', 'FormDIV2', 'FormDIV3', 'FormDIV4TooFar4SimpleWarning','FormDIV4MultipleMRCAs' , 'FormDIV4','FormDIV4direct','FormDIV4abc','FormDIV1WarningDeathDates', 'FormDIV5', 'FormDIV6','FormDIV6MT','FormDIV6X','FormDIV6Y','FormDIV6TRI', 'FormDIV7' ];
 			
 			for (var i = 0; i < allDIVs.length; i++) {
 				document.getElementById(allDIVs[i]).style.display = 'none';
@@ -14530,7 +14580,7 @@ function cookie4thisApp (key, value, options) {
 
 		<DIV id=versionDesc>
 		<span align=center>
-				<span style='background-color:yellow;'>Version 3.10.03 </span> - updated 26 Feb 2026
+				<span style='background-color:yellow;'>Version 3.12 </span> - updated 14 Oct 2026
 				
 		</span>
 		</DIV>
@@ -14842,6 +14892,14 @@ function cookie4thisApp (key, value, options) {
 				<span id=FormDIV1WarningDeadTesters></span><BR/><BR/>
 				<B>Any source citation made with this combination of DNA Test Takers is INVALID and must NOT be used on an actual WikiTree profile!</B><BR/><BR/>
 				However, you may proceed for demonstration and/or testing purposes to view the end results and analyze the text generated.
+			</P>
+		</DIV>
+
+		<DIV id=FormDIV1YGenderWarning align=center style="display:none; background-color:white; max-width: 500px; padding: 20px; margin: 20px; border-color: red; border-style: solid; border-width: 2px; border-radius: 20px;">
+			<P><B>WARNING: Y-DNA confirmation requires both DNA testers to have Gender listed as Male on WikiTree.</B><BR/><BR/>
+				Y-DNA cannot confirm a direct paternal-line relationship unless both testers are male.<BR/><BR/>
+				<span id=YGenderWarningDetails></span><BR/><BR/>
+				<A onclick="return2Step(1);"><U>RETURN to STEP 1</U></A>
 			</P>
 		</DIV>
 
@@ -15819,7 +15877,15 @@ The app will guide you through the process of creating a DNA Confirmation Citati
 <table border=0 align=center><tr><td width=25%>&nbsp;</td>
 <td width=50% align=left><P align=center>
 <span style="background-color: orange;"><b>&nbsp;What's New / App Updates&nbsp;</b></span><br/><br/>
-<I>Many thanks to the many hours of consultation and feedback<BR>provided by Peter J Roberts, Mags Gaulden and John Kingman!<BR>Thanks also to beta-testers and bug-finders<BR>Emma, John, Ole, Loretta, Chris W, Dagmar, Jonny, Roger, Topher, Kylie, Jane, Charles, Bill V ... <BR>Murray, Betsy, Jim, Kirby, Mike, Todd, Riel, Ian, Kay, Audrey, William C ... <BR>(your name could go here too!) ...</I><BR>
+<I>Many thanks to the many hours of consultation and feedback<BR>provided by Peter J Roberts, Mags Gaulden and John Kingman!<BR>Thanks also to beta-testers and bug-finders<BR>Emma, John, Ole, Loretta, Chris W, Dagmar, Jonny, Roger, Topher, Kylie, Jane, Charles, Bill V ... <BR>Murray, Betsy, Jim, Kirby, Mike, Todd, Riel, Ian, Kay, Audrey, William C, Geo Ford ... <BR>(your name could go here too!) ...</I><BR>
+<br/><b>Version 3.12 - updated 14 Oct 2026</b><br/>
+* fixed logic error with half cousins and Aliases (thanks Geo)
+<br/><b>Version 3.11 - updated 13 Oct 2026</b><br/>
+* fixed half relationship confirmation statements (half was sometimes omitted)<BR>
+* Step 7 mini-tree shows the descendant choices made in Step 4<BR>
+* Y DNA Match now checks that both DNA testers are male<BR>
+* Step 7 Bonus citations will now include those in path from Common Ancestor to Alias, for WikiTree ancestors of Alias that are identified
+
 <br/><b>Version 3.10 - updated 26 Feb 2026</b><br/>
 * fixed DNA confirmation to use BioParents for all other matches
 <br/><b>Version 3.09 - updated 25 Feb 2026</b><br/>
